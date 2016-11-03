@@ -78,9 +78,6 @@ source $(brew --prefix nvm)/nvm.sh
 # Export HOMEBREW github token
 export HOMEBREW_GITHUB_API_TOKEN=513df6649cea48a69e826d235f86db773943ffc3
 
-# Link Homebrew casks in `/Applications` rather than `~/Applications`
-export HOMEBREW_CASK_OPTS='--appdir=/Applications';
-
 export DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer
 
 source $ZSH/oh-my-zsh.sh
