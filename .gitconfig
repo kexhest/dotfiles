@@ -1,0 +1,177 @@
+[alias]
+	# Amend the currently staged files to the latest commit.
+	amend = commit --amend --reuse-message=HEAD
+
+	# Shorthand for branch.
+	b = branch
+
+	# Show verbose output about branches.
+	branches = branch --all
+
+	# Clone a repository including all submodules.
+	c = clone --recursive
+
+	# Commit all changes.
+	ca = !git add --all && git commit --all --verbose
+
+	# Switch to a branch.
+	co = checkout
+
+	# List contributors with number of commits.
+	contributors = shortlog --summary --numbered
+
+	# Show the diff between the latest commit and the current state.
+	d = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"
+
+	# Remove branches that have already been merged with master
+	# a.k.a. ‘delete merged’.
+	dm = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
+
+	# Fetch everything all remotes.
+	f = fetch --all
+
+	# Switch to a branch, creating it if necessary.
+	go = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
+
+	# View the SHA, description, and history graph of the latest 20 commits.
+	l = log --format='%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --no-merges -n 20
+
+	# Shorthand for merge.
+	m = merge
+
+	# Shorthand for push.
+	p = push
+
+	# Pull in remote changes for the current repository and all its submodules.
+	pl = !"git pull; git submodule foreach git pull origin master"
+
+  # Shorthand for pull request
+	pr = pull-request
+
+	# Shorthand for remote.
+	r = remote
+
+	# Interactive rebase with the given number of latest commits.
+	reb = "!r() { git rebase -i HEAD~$1; }; r"
+
+	# Remove the old tag with this name and tag the latest commit with it.
+	retag = "!r() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1; }; r"
+
+	# Show verbose output about remotes.
+	remotes = remote --verbose
+
+	# View the current working tree status using the short format.
+	s = status --short --branch
+
+	# List contributors with number of commits.
+	sl = shortlog --summary --numbered
+
+	# Shows a graph of recent commits and status of branches.
+	t = log --oneline --decorate --all --graph
+
+	# Show verbose output about tags.
+	tags = tag --list
+
+[apply]
+	# Detect whitespace errors when applying a patch.
+	whitespace = fix
+
+[color]
+	# Use colors in Git commands that are capable of colored output when outputting to the terminal.
+	ui = auto
+
+[color "branch"]
+	# Highlight current. Yellow local branches; Green remotes.
+	current = yellow reverse
+	local = yellow
+	remote = green
+
+[color "diff"]
+	# Yellow meta; Magenta line info; Red for deleltions; Green for additions.
+	frag = magenta
+	meta = yellow
+	new = green
+	old = red
+
+[color "status"]
+	# Changed files are yellow. Staged files are green. New (untracked) files are cyan.
+	# Headers are gray (white dimmed). Branch is always green even in headers
+	added = green
+	branch = green
+	changed = yellow
+	header = white dim
+	untracked = cyan
+
+[commit]
+	# Sign all commits with GPG.
+	gpgsign = true
+
+[core]
+	# Global `.gitattributes`
+	attributesfile = ~/.gitattributes
+
+	# Default editor for commit messages and other inputs
+	# even when EDITOR is set to something else.
+	editor = vim
+
+	# Global `.gitignore`.
+	excludesfile = ~/.gitignore
+
+	# Make `git rebase` safer on OS X.
+	trustctime = false
+
+	# Treat spaces before tabs and all kinds of trailing whitespace as an error.
+	whitespace = space-before-tab,-indent-with-non-tab,trailing-space
+
+[diff]
+	# Use more time to create better diffs.
+	algorithm = patience
+
+	# Diff will detect both renames and copies.
+	renames = copies
+
+[merge]
+	# Include summaries of merged commits in newly created merge commit messages.
+	log = true
+
+[push]
+	# Git simple branching method only your current branch will be pushed.
+	default = simple
+
+[github]
+	# GitHub username for commandline tools
+	user = magnus-bergman
+
+[user]
+	# Name used in commit messages.
+	name = Magnus Bergman
+
+	# Email used in commit messages.
+	email = karlmagnusbergman@gmail.com
+
+	# Public GPG signing key id.
+	signingkey = C2C71A3BA103C189
+
+[credential]
+	# User OSX Keychain to store GTTP passwords.
+	helper = osxkeychain
+
+[url "git@github.com:"]
+	# gh: is a shorthand for git@github.com
+	insteadOf = "gh:"
+	pushInsteadOf = "github:"
+	pushInsteadOf = "git://github.com/"
+
+[url "git://github.com/"]
+	# github: is a shorthand for git://github.com/
+	insteadOf = "github:"
+
+[url "git@gist.github.com:"]
+	# gst: is a shorthand for git://gist.github.com/
+	insteadOf = "gst:"
+	pushInsteadOf = "gist:"
+	pushInsteadOf = "git://gist.github.com/"
+
+[url "git://gist.github.com/"]
+	# gist: is a shofthand for git://gist.github.com/
+	insteadOf = "gist:"
