@@ -32,19 +32,26 @@ autoload -U promptinit; promptinit
 prompt pure
 ```
 
-**4**. Replace Sublime Text user directory and sync with DropBox.
+**4**. Install hyperzsh theme for oh my zsh.
+```bash
+git clone https://github.com/tylerreckart/hyperzsh
+cd hyperzsh && cp -R hyperzsh.zsh-theme ~/.oh-my-zsh/themes/hyperzsh.zsh-theme
+```
+Or follow the instructions [here](https://github.com/tylerreckart/hyperzsh#for-oh-my-zsh-users). The theme is already set in the .zshrc within this repo.
+
+**5**. Replace Sublime Text user directory and sync with DropBox.
 ```bash
 $ rm -r ~/Library/Application\ Support/Sublime\ Text\ 3/Packages
 $ ln -s ~/Dropbox/Apps/Sublime\ Text\ 3/Packages ~/Library/Application\ Support/Sublime\ Text\ 3/Packages
 ```
 
-**5**. Replace Atom user directory and sync with DropBox.
+**6**. Replace Atom user directory and sync with DropBox.
 ```bash
 $ rm -r ~/.atom
 $ ln -s ~/Dropbox/Apps/Atom ~/.atom
 ```
 
-**6**. Restart the computer and live happily ever after.
+**7**. Restart the computer and live happily ever after.
 
 ## Before Reset
 This is a checklist of things to do before reseting the disk.
