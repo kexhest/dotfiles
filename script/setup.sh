@@ -9,6 +9,7 @@ logk()	{ echo "OK"; }
 
 NAME="Magnus Bergman"
 EMAIL="karlmagnusbergman@gmail.com"
+COMPUTER_NAME="magnus"
 
 # Print commands and their arguments as they are executed.
 set -x
@@ -34,8 +35,11 @@ if [ -z "$COMPUTER_NAME" ]; then
     sudo scutil --set HostName $CUSTOM_NAME
     sudo scutil --set LocalHostName $CUSTOM_NAME
     sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string $CUSTOM_NAME
+  else
+    logn "Skipping setting computer name"
   fi
 else
+  logn "Setting computer name to $COMPUTER_NAME:"
   sudo scutil --set ComputerName $COMPUTER_NAME
   sudo scutil --set HostName $COMPUTER_NAME
   sudo scutil --set LocalHostName $COMPUTER_NAME
@@ -156,6 +160,17 @@ else
 fi
 logk
 
+# Install the latest version of Oh My Zsh.
+logn "Install latest version of Oh My Zsh:"
+brew install bash
+if [ -z "$TRAVIS" ]; then
+	sudo bash -c '$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)'
+	chsh -s /bin/zsh
+else
+	echo "Skipping installaing the latest verison of Oh My Zsh."
+fi
+logk
+
 logn "Installing binaries:"
 cat > /tmp/Brewfile <<EOF
 brew 'aria2'
@@ -190,15 +205,22 @@ logn "Installing latest version of NPM:"
 npm install -g npm@latest
 logk
 
+logn "Installing global node packages"
+npm install -g pure-prompt
+npm install -g hpm-cli
+npm install -g rimraf
+logk
+
+# Install PHP and update php.ini config file.
 logn "Installing PHP:"
-brew install homebrew/php/php70
-sed -i".bak" "s/^\;phar.readonly.*$/phar.readonly = Off/g" /usr/local/etc/php/7.0/php.ini
-sed -i "s/memory_limit = .*/memory_limit = -1/" /usr/local/etc/php/7.0/php.ini
+brew install homebrew/php/php71
+sed -i".bak" "s/^\;phar.readonly.*$/phar.readonly = Off/g" /usr/local/etc/php/7.1/php.ini
+sed -i "s/memory_limit = .*/memory_limit = -1/" /usr/local/etc/php/7.1/php.ini
 if [ -z "$TRAVIS" ]; then
-  brew install homebrew/php/composer
-  brew install homebrew/php/php-cs-fixer
+	brew install homebrew/php/composer
+	brew install homebrew/php/php-cs-fixer
 else
-  echo "Skipping installing composer and php-cs-fixer for CI"
+	echo "Skipping installing composer and php-cs-fixer for CI."
 fi
 logk
 

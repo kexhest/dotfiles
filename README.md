@@ -26,19 +26,25 @@ cd dotfiles
 ./script/setup
 ```
 
-**3**. Replace Sublime Text user directory and sync with DropBox.
+**3**. Set default prompt to pure.
+```bash
+autoload -U promptinit; promptinit
+prompt pure
+```
+
+**4**. Replace Sublime Text user directory and sync with DropBox.
 ```bash
 $ rm -r ~/Library/Application\ Support/Sublime\ Text\ 3/Packages
 $ ln -s ~/Dropbox/Apps/Sublime\ Text\ 3/Packages ~/Library/Application\ Support/Sublime\ Text\ 3/Packages
 ```
 
-**4**. Replace Atom user directory and sync with DropBox.
+**5**. Replace Atom user directory and sync with DropBox.
 ```bash
 $ rm -r ~/.atom
 $ ln -s ~/Dropbox/Apps/Atom ~/.atom
 ```
 
-**5**. Restart the computer and live happily ever after.
+**6**. Restart the computer and live happily ever after.
 
 ## Before Reset
 This is a checklist of things to do before reseting the disk.
