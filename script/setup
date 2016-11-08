@@ -180,6 +180,7 @@ brew 'gpg-agent'
 brew 'heroku-toolbelt'
 brew 'hub'
 brew 'keybase'
+brew 'mas'
 brew 'node'
 brew 'nvm'
 brew 'rename'
@@ -266,6 +267,17 @@ cask 'webpquicklook'
 EOF
 brew bundle --file=/tmp/Caskfile
 rm -f /tmp/Caskfile
+logk
+
+# Install macOS applications from the Mac App Store.
+logn "Installing macOS applications with MAS:"
+if [ -z "$TRAVIS" ]; then
+  mas install 409789998 # Twitter
+  mas install 889922906 # Jumpshare
+  mas install 1091189122 # Bear
+else
+  echo "Skipping installing macOS applications with MAS for CI."
+fi
 logk
 
 # Create Sites directory in user folder.

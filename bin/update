@@ -20,6 +20,9 @@ brew tap --repair
 log 'Check if my system is ready to brew...'
 brew doctor
 
+log 'Update outdated apps from the Mac App Store...'
+mas upgrade
+
 log 'Update Composer with dependencies...'
 composer self-update
 composer global update --no-dev --prefer-dist
