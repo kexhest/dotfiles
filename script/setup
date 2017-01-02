@@ -164,7 +164,7 @@ logk
 logn "Install latest version of Oh My Zsh:"
 brew install bash
 if [ -z "$TRAVIS" ]; then
-	sudo bash -c '$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)'
+	sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 	chsh -s /bin/zsh
 else
 	echo "Skipping installaing the latest verison of Oh My Zsh."
