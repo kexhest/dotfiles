@@ -174,12 +174,12 @@ logk
 logn "Installing binaries:"
 cat > /tmp/Brewfile <<EOF
 brew 'aria2'
+brew 'ffmpeg', args: ['with-fdk-aac', 'with-libvpx', 'with-libvorbis', 'with-theora', 'with-webp']
 brew 'git'
 brew 'gnu-sed', args: ['with-default-names']
 brew 'gpg-agent'
 brew 'heroku-toolbelt'
 brew 'hub'
-brew 'keybase'
 brew 'mas'
 brew 'node'
 brew 'nvm'
