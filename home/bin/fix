@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+run() {
+	if [[ -f .php_cs ]]; then
+		eval "php-cs-fixer fix $* --config=\"$(pwd)/.php_cs\""
+	else
+		eval "php-cs-fixer fix $* --config=\"${HOME}/.php_cs\""
+	fi
+}
+
+if [[ -z "$1" ]]; then
+	run
+	exit 1
+fi
+
+for arg; do
+	run ${arg}
+done

@@ -1,0 +1,288 @@
+#!/bin/bash
+set -e
+
+abort() { echo "!!! $@" >&2; exit 1; }
+log()   { echo "--> $@"; }
+logn()  { printf -- "--> $@ "; }
+logk()  { echo "OK"; }
+
+# Print commands and their arguments as they are executed.
+set -x
+
+# Run the script as yourself, not root.
+[ "$USER" = "root" ] && abort "Run the script as yourself, not root."
+# shellcheck disable=SC2086
+groups | grep $Q admin || abort "Add $USER to the admin group."
+
+log "Please enter your full name"
+read NAME
+
+log "Please enter your email"
+read EMAIL
+
+# Set computer name (as done via System Preferences → Sharing)
+log "What would you like to name this computer?"
+read COMPUTER_NAME
+
+# Initialise sudo now to save prompting later.
+log "Enter your password (for sudo access):"
+sudo -k
+sudo /usr/bin/true
+logk
+
+sudo scutil --set ComputerName $COMPUTER_NAME
+sudo scutil --set HostName $COMPUTER_NAME
+sudo scutil --set LocalHostName $COMPUTER_NAME
+sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string $COMPUTER_NAME
+logk
+
+# Install the Xcode Command Line Tools.
+logn "Requesting user install of Xcode Command Line Tools:"
+xcode-select --install
+logk
+
+# Installing Homebrew.
+logn "Installing Homebrew:"
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+logk
+
+# Install Homebrew Bundle, Cask, Services and Versions tap.
+log "Installing Homebrew taps and extensions:"
+brew bundle --file=- <<EOF
+tap 'caskroom/cask'
+tap 'caskroom/versions'
+tap 'homebrew/core'
+tap 'homebrew/php'
+tap 'homebrew/services'
+EOF
+logk
+
+# Check and enable full-disk encryption.
+logn "Checking full-disk encryption status:"
+# shellcheck disable=SC2086
+if fdesetup status | grep $Q -E "FileVault is (On|Off, but will be enabled after the next restart)."; then
+  logk
+else
+  echo
+  log "Enabling full-disk encryption on next reboot:"
+  sudo fdesetup enable -user "$USER" \
+    | tee ~/Desktop/"FileVault Recovery Key.txt"
+  logk
+fi
+
+# Install any remaining software updates.
+logn "Installing software updates:"
+sudo softwareupdate --install --all
+
+# Install the latest version of Bash.
+logn "Install latest version of Bash:"
+brew install bash
+sudo bash -c 'echo /usr/local/bin/bash >> /etc/shells'
+chsh -s /usr/local/bin/bash
+logk
+
+# Install binaries with Homebrew.
+logn "Installing binaries with Homebrew:"
+brew bundle --file=- <<EOF
+brew 'aria2'
+brew 'bash-completion@2'
+brew 'curl'
+brew 'ffmpeg', args: ['with-fdk-aac', 'with-libvorbis', 'with-libvpx', 'with-theora', 'with-webp', --with-x265]
+brew 'flow'
+brew 'git'
+brew 'gnu-sed', args: ['with-default-names']
+brew 'gnupg'
+brew 'gpg-agent'
+brew 'heroku-toolbelt'
+brew 'hub'
+brew 'mas'
+brew 'mongodb'
+brew 'mysql'
+brew 'node'
+brew 'nvm'
+brew 'jq'
+brew 'p7zip'
+brew 'pinentry-mac'
+brew 'python'
+brew 'sqlite'
+brew 'vim'
+brew 'watchman'
+brew 'wget'
+brew 'z'
+EOF
+logk
+
+# Install PHP, global packages and update php.ini config file.
+logn "Installing PHP:"
+brew install homebrew/php/php72
+sed -i".bak" 's/^\;phar.readonly.*$/phar.readonly = Off/g' /usr/local/etc/php/7.2/php.ini
+sed -i "s/memory_limit = .*/memory_limit = -1/" /usr/local/etc/php/7.2/php.ini
+brew install homebrew/php/composer
+logk
+
+# Install PHP packages with Composer.
+logn "Installing Composer packages:"
+composer global require friendsofphp/php-cs-fixer \
+laravel/valet
+logk
+
+# Install macOS applications with Brew Cask.
+logn "Installing macOS applications:"
+brew bundle --file=- <<EOF
+cask '1password'
+cask 'adobe-creative-cloud'
+cask 'appcleaner'
+cask 'caprine'
+cask 'couleurs'
+cask 'cuda'
+cask 'dropbox'
+cask 'firefox'
+cask 'github-desktop'
+cask 'google-chrome'
+cask 'google-chrome-canary'
+cask 'google-drive'
+cask 'grandperspective'
+cask 'graphiql'
+cask 'handbrake'
+cask 'hyper'
+cask 'imagealpha'
+cask 'imageoptim'
+cask 'kap'
+cask 'playback'
+cask 'pngyu'
+cask 'postman'
+cask 'qlcolorcode'
+cask 'qlimagesize'
+cask 'qlmarkdown'
+cask 'qlstephen'
+cask 'qlvideo'
+cask 'quicklook-csv'
+cask 'quicklook-json'
+cask 'sequel-pro'
+cask 'sketch'
+cask 'skype'
+cask 'slack'
+cask 'spectacle'
+cask 'spotify'
+cask 'transmit'
+cask 'vagrant'
+cask 'virtualbox'
+cask 'visual-studio-code'
+cask 'webpquicklook'
+EOF
+logk
+
+# Install macOS applications from the Mac App Store.
+logn "Installing macOS applications with MAS:"
+mas install 1091189122 # Bear
+mas install 889922906 # Jumpshare
+mas install 926036361 # LastPass
+mas install 1263070803 # Lungo
+logk
+
+# Install npm and packages:
+logn "Install npm and packages:"
+npm install --global npm@latest \
+empty-trash-cli \
+fast-cli \
+hpm-cli \
+internal-ip-cli \
+npm-check-updates \
+public-ip-cli \
+prettier \
+pure-prompt \
+tldr \
+trash-cli
+logk
+
+# Create Code and Sites directories in the user folder.
+logn "Create Code and Sites directories in the user folder:"
+mkdir ~/Code
+mkdir ~/Sites
+logk
+
+# Set some basic security settings.
+logn "Configuring security settings:"
+defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaEnabled -bool false
+defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaEnabledForLocalFiles -bool false
+defaults write com.apple.screensaver askForPassword -int 1
+defaults write com.apple.screensaver askForPasswordDelay -int 0
+sudo defaults write /Library/Preferences/com.apple.alf globalstate -int 1
+sudo launchctl load /System/Library/LaunchDaemons/com.apple.alf.agent.plist 2>/dev/null
+logk
+
+# Set 1.1.1.1 as default DNS servers.
+logn "Configuring DNS servers:"
+networksetup -setdnsservers Wi-Fi 1.1.1.1 1.0.0.1 2606:4700:4700::1111 2606:4700:4700::1001
+logk
+
+# Setup prefered macOS settings.
+logn "Setup prefered macOS settings:"
+
+# Add login screen message.
+sudo defaults write /Library/Preferences/com.apple.loginwindow LoginwindowText
+	"Found this computer? Please contact $NAME at $EMAIL."
+
+# Menu bar: Always show percentage next to the Battery icon
+defaults write com.apple.menuextra.battery ShowPercent YES
+
+# Hide files and directories on the desktop
+defaults write com.apple.finder CreateDesktop -bool false
+
+# Save screenshots to the downloads directory
+defaults write com.apple.screencapture location -string "${HOME}/Downloads"
+
+# Enable Secure Keyboard Entry in Terminal.app
+# See: https://security.stackexchange.com/a/47786/8918
+defaults write com.apple.terminal SecureKeyboardEntry -bool true
+
+# Set a blazingly fast keyboard repeat rate
+defaults write NSGlobalDomain KeyRepeat -int 1
+defaults write NSGlobalDomain InitialKeyRepeat -int 15
+
+# Enable key repeat everywhere
+defaults write -g ApplePressAndHoldEnabled -bool false
+
+# Disable auto-correct
+defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
+
+# New Finder windows shows Home directory
+defaults write com.apple.finder NewWindowTarget -string "PfHm"
+defaults write com.apple.finder NewWindowTargetPath -string "file:///Users/vincent/"
+
+# Disable the warning when changing a file extension
+defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
+
+# Minimize windows into application icon.
+defaults write com.apple.dock minimize-to-application -bool true
+
+# Hide recent applications in the dock.
+defaults write com.apple.dock show-recents -bool false
+
+# Keep folders on top when sorting by name.
+defaults write com.apple.finder _FXSortFoldersFirst -bool true
+
+# Turn of Siri and hide it in the menu bar.
+defaults write com.apple.siri StatusMenuVisible -bool false
+defaults write com.apple.siri UserHasDeclinedEnable -bool true
+
+# Disable the dashboard feature.
+defaults write com.apple.dashboard mcx-disabled -bool true
+
+# Hide scrollbars.
+defaults write NSGlobalDomain AppleShowScrollBars -string "WhenScrolling"
+
+# Set the icon size of Dock items to 50 pixels.
+defaults write com.apple.dock tilesize -int 50
+
+# Enable full keyboard access.
+defaults write NSGlobalDomain AppleKeyboardUIMode -int 2
+
+# Automatically hide and show the Dock.
+defaults write com.apple.dock autohide -bool true
+logk
+
+# Revoke sudo access again
+sudo -k
+
+log 'Finished! Please reboot!'

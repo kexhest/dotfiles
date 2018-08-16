@@ -2,7 +2,7 @@
 alias ..="cd .."
 alias ...="cd ../.."
 
-# Finder shortcuts
+# Shortcuts
 alias d="cd ~/Dropbox"
 alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
@@ -12,12 +12,9 @@ alias ss="cd ~/Sites"
 # Better GitHub integration
 alias git="hub"
 
-# Git shortcuts
+# Shortcuts
 alias g="git"
 alias h="history"
-
-# Composer CLI
-alias dump="composer dump-autoload"
 
 # List all files in long format, including dot files
 alias l="ls -Glah"
@@ -31,6 +28,9 @@ alias simulator="open /Applications/Xcode.app/Contents/Developer/Applications/iO
 # IP addresses
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias localip="ipconfig getifaddr en0"
+
+# Enhance dig
+alias dig="dig +nostats +nocomments +nocmd"
 
 # Show/hide hidden files in Finder
 alias show="defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder"

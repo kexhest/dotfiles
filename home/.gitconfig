@@ -1,4 +1,7 @@
 [alias]
+	# List aliases.
+	aliases = config --get-regexp alias
+
 	# Amend the currently staged files to the latest commit.
 	amend = commit --amend --reuse-message=HEAD
 
@@ -17,11 +20,8 @@
 	# Switch to a branch.
 	co = checkout
 
-	# List contributors with number of commits.
-	contributors = shortlog --summary --numbered
-
 	# Show the diff between the latest commit and the current state.
-	d = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"
+	d = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat ':(exclude)*lock*'"
 
 	# Remove branches that have already been merged with master
 	# a.k.a. ‘delete merged’.
@@ -33,8 +33,8 @@
 	# Switch to a branch, creating it if necessary.
 	go = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
 
-	# View the SHA, description, and history graph of the latest 20 commits.
-	l = log --format='%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --no-merges -n 20
+	# View the SHA, description, and history graph of the latest 30 commits.
+	l = log --format='%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --no-merges -n 30
 
 	# Shorthand for merge.
 	m = merge
@@ -45,7 +45,7 @@
 	# Pull in remote changes for the current repository and all its submodules.
 	pl = !"git pull; git submodule foreach git pull origin master"
 
-  # Shorthand for pull request
+	# Shorthand for pull request.
 	pr = pull-request
 
 	# Shorthand for remote.
@@ -107,21 +107,26 @@
 	gpgsign = true
 
 [core]
-	# Global `.gitattributes`
-	attributesfile = ~/.gitattributes
+	# Don't ignore case sensitive on filenames.
+	ignoreCase = false
 
-	# Default editor for commit messages and other inputs
-	# even when EDITOR is set to something else.
-	editor = vim
-
-	# Global `.gitignore`.
+	# Global `.gitignore` and `.gitattributes`.
 	excludesfile = ~/.gitignore
+	attributesfile = ~/.gitattributes
 
 	# Make `git rebase` safer on OS X.
 	trustctime = false
 
 	# Treat spaces before tabs and all kinds of trailing whitespace as an error.
 	whitespace = space-before-tab,-indent-with-non-tab,trailing-space
+
+	# Speed up commands involving untracked files such as `git status`.
+	# https://git-scm.com/docs/git-update-index#_untracked_cache
+	untrackedCache = true
+
+[credential]
+	# User OSX Keychain to store GTTP passwords.
+	helper = osxkeychain
 
 [diff]
 	# Use more time to create better diffs.
@@ -138,23 +143,20 @@
 	# Git simple branching method only your current branch will be pushed.
 	default = simple
 
-[github]
-	# GitHub username for commandline tools
-	user = magnus-bergman
+	# Make `git push` push relevant annotated tags when pushing branches out.
+	followTags = true
 
 [user]
-	# Name used in commit messages.
+	# Name and email used when authoring commits.
 	name = Magnus Bergman
-
-	# Email used in commit messages.
 	email = karlmagnusbergman@gmail.com
 
 	# Public GPG signing key id.
-	signingkey = C2C71A3BA103C189
+	signingkey = 
 
-[credential]
-	# User OSX Keychain to store GTTP passwords.
-	helper = osxkeychain
+[github]
+	# GitHub username for commandline tools
+	user = magnus-bergman
 
 [url "git@github.com:"]
 	# gh: is a shorthand for git@github.com

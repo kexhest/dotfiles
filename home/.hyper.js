@@ -1,10 +1,11 @@
 module.exports = {
   config: {
     // default font size in pixels for all tabs
-    fontSize: 12,
+    fontSize: 13,
 
     // font family with optional fallbacks
-    fontFamily: 'Menlo, "DejaVu Sans Mono", "Lucida Console", monospace',
+    fontFamily:
+      '"Fira Code", Menlo, "DejaVu Sans Mono", "Lucida Console", monospace',
 
     // terminal cursor background color and opacity (hex, rgb, hsl, hsv, hwb or cmyk)
     cursorColor: 'rgba(248,28,229,0.75)',
@@ -13,15 +14,16 @@ module.exports = {
     cursorShape: 'BLOCK',
 
     // color of the text
-    foregroundColor: '#fff',
+    foregroundColor: '#000',
 
     // terminal background color
-    backgroundColor: '#000',
+    backgroundColor: '#fff',
 
     // border color (window, tabs)
-    borderColor: '#333',
+    borderColor: '',
 
     // custom css to embed in the main window
+    // css: 'nav.tabs_nav { margin-top: -1px; background-color: transparent !important; border: none !important; } .tab_tab { color: #868e96 !important; border: none !important; background-color: transparent !important; } .tabs_title,.tab_tab.tab_active { color: #212529 !important; font-weight: 700 !important; text-transform: uppercase !important; border-top: 2px solid #212529 !important; border-color: #212529 !important; }',
     css: '',
 
     // custom css to embed in the terminal window
@@ -49,7 +51,7 @@ module.exports = {
       lightBlue: '#0066ff',
       lightMagenta: '#cc00ff',
       lightCyan: '#00ffff',
-      lightWhite: '#ffffff'
+      lightWhite: '#ffffff',
     },
 
     // the shell to run when spawning a new session (i.e. /usr/local/bin/fish)
@@ -67,7 +69,7 @@ module.exports = {
     bell: false,
 
     // if true, selected text will automatically be copied to the clipboard
-    copyOnSelect: false
+    copyOnSelect: false,
 
     // URL to custom bell
     // bellSoundURL: 'http://example.com/bell.mp3',
@@ -81,14 +83,10 @@ module.exports = {
   //   `hyperpower`
   //   `@company/project`
   //   `project#1.0.1`
-  plugins: [
-    'hyperterm-snazzy',
-    'hypercwd',
-    'hyperterm-tabs'
-  ],
+  plugins: ['hyperterm-mild-dark', 'hypercwd'],
 
   // in development, you can create a directory under
   // `~/.hyperterm_plugins/local/` and include it here
   // to load it and avoid it being `npm install`ed
-  localPlugins: []
+  localPlugins: [],
 };

@@ -30,7 +30,7 @@ rm -rfv ~/Library/Developer/Xcode/Archives/*
 
 log 'Cleanup Homebrew Cache...'
 brew cleanup --force -s
-rm -rfv $(brew --cache)/*
+rm -rfv /Library/Caches/Homebrew/*
 brew tap --repair
 
 # Revoke sudo access again

@@ -4,62 +4,48 @@
 
 .files, sensible hacker defaults for OS X. If you're curious how to setup your own dotfiles, please visit [Mathias Bynens's dotfiles](https://github.com/mathiasbynens/dotfiles) and [Mike McQuaid's strap project](https://github.com/mikemcquaid/strap) to learn more.
 
-This repository was originally a fork from [vinkla/dotfiles](https://github.com/vinkla/dotfiles/).
-
 [![Build Status](https://img.shields.io/travis/magnus-bergman/dotfiles/master.svg?style=flat)](https://travis-ci.org/magnus-bergman/dotfiles)
 [![License](https://img.shields.io/github/license/magnus-bergman/dotfiles.svg?style=flat)](https://github.com/magnus-bergman/dotfiles/blob/master/LICENSE)
 
 ## Installation
 
-This is the installation guide to setup these dotfiles on a new OS X system.
+This is the installation guide to setup these dotfiles on a new macOS system.
 
-**1**. Generate SSH keys [https://help.github.com/articles/generating-ssh-keys](https://help.github.com/articles/generating-ssh-keys)
+1. Generate SSH keys [https://help.github.com/articles/generating-ssh-keys](https://help.github.com/articles/generating-ssh-keys)
 
 ```bash
 $ ssh-keygen -t rsa -C "your_email@example.com"
 ```
 
-**2**. Clone this respoitory and install dotfiles.
-```bash
-$ git clone git@github.com:magnus-bergman/dotfiles.git
-cd dotfiles
-./script/setup
-```
+2. Clone this respoitory and install dotfiles.
 
-**3**. Set default prompt to pure.
+3. Set default prompt to pure.
+
 ```bash
 autoload -U promptinit; promptinit
 prompt pure
 ```
 
-**4**. Install hyperzsh theme for oh my zsh.
-```bash
-git clone https://github.com/tylerreckart/hyperzsh
-cd hyperzsh && cp -R hyperzsh.zsh-theme ~/.oh-my-zsh/themes/hyperzsh.zsh-theme
-```
-Or follow the instructions [here](https://github.com/tylerreckart/hyperzsh#for-oh-my-zsh-users). The theme is already set in the .zshrc within this repo.
+4. Follow the instructions [here](https://github.com/tylerreckart/hyperzsh#for-oh-my-zsh-users) to install hyperzsh theme for oh my zsh. The theme is already set in the .zshrc within this repo.
 
-**5**. Replace Sublime Text user directory and sync with DropBox.
-```bash
-$ rm -r ~/Library/Application\ Support/Sublime\ Text\ 3/Packages
-$ ln -s ~/Dropbox/Apps/Sublime\ Text\ 3/Packages ~/Library/Application\ Support/Sublime\ Text\ 3/Packages
-```
+5. Download an import private GPG key from Keybase.
 
-**6**. Replace Atom user directory and sync with DropBox.
-```bash
-$ rm -r ~/.atom
-$ ln -s ~/Dropbox/Apps/Atom ~/.atom
-```
+6. Setup 1Password and sync passwords.
 
-**7**. Restart the computer and live happily ever after.
+7. Add settings sync to vs-code/atom/sublime.
+
+8. Restart the computer and live happily ever after.
 
 ## Before Reset
-This is a checklist of things to do before reseting the disk.
 
-1. Export `Transmit.app` favorites and `Sequel Pro.app` databases to Dropbox.
-2. Check all GIT repositories for uncommitted changes.
-3. Make sure editor settings (`Sublime Text.app` and `Atom.app`) are synced.
-4. Reconsider all applications, binaries and tools in `script/setup`.
+Remeber to always backup or upload local stuff that you care about. Here are a few reminders of what you might lose otherwise.
+
+- Local databases and app configurations: eg. `Transmit.app` favorites and `mysql` databases.
+- Remember to check all GIT repositories for uncommitted changes.
+- Make sure editor settings are synced.
+
+Last but not least, you should probably reconsider applications, binaries and tools in `scripts`.
 
 ## License
-The dotfiles repository is licensed under [The MIT License (MIT)](LICENSE).
+
+[MIT](LICENSE) © [Magnus Bergman](https://magnus.sexy).

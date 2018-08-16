@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Make vim the default editor.
+export EDITOR="vim";
+
 # Add-ons to the `${PATH}`
 export PATH="${HOME}/bin:${PATH}";
 export PATH="/usr/local/sbin:${PATH}";
@@ -10,13 +13,11 @@ export PATH=${PATH}:${HOME}/.composer/vendor/bin;
 export NVM_DIR=~/.nvm
 source $(brew --prefix nvm)/nvm.sh
 
-# Make vim the default editor
-export EDITOR="vim";
-
 # Larger bash history (allow 32³ entries; default is 500)
 export HISTSIZE=32768;
 export HISTFILESIZE=${HISTSIZE};
-export HISTCONTROL=ignoredups:erasedups;
+# Omit duplicates and commands that begin with a space from history.
+export HISTCONTROL="ignoreboth";
 
 # Make some commands not show up in history
 export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help";
@@ -25,12 +26,17 @@ export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help";
 export LANG="en_US.UTF-8";
 export LC_ALL="en_US.UTF-8";
 
-# Highlight section titles in manual pages
-export LESS_TERMCAP_md="${ORANGE}";
+# Highlight manual pages.
+export LESS_TERMCAP_mb=$'\E[01;31m';
+export LESS_TERMCAP_md=$'\E[01;38;5;74m';
+export LESS_TERMCAP_me=$'\E[0m';
+export LESS_TERMCAP_se=$'\E[0m';
+export LESS_TERMCAP_so=$'\E[38;5;246m';
+export LESS_TERMCAP_ue=$'\E[0m';
+export LESS_TERMCAP_us=$'\E[04;38;5;146m';
+
+# Don’t clear the screen after quitting a manual page.
+export MANPAGER='less -X';
 
 # Always enable colored `grep` output
 export GREP_OPTIONS="--color=auto";
-
-# Link Homebrew casks in `/Applications` rather than `~/Applications`
-export HOMEBREW_CASK_OPTS="--appdir=/Applications";
-export HOMEBREW_GITHUB_API_TOKEN=99d494362a9e0736e1f128817c0ec73225eb455e
