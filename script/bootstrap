@@ -87,7 +87,7 @@ brew bundle --file=- <<EOF
 brew 'aria2'
 brew 'bash-completion@2'
 brew 'curl'
-brew 'ffmpeg', args: ['with-fdk-aac', 'with-libvorbis', 'with-libvpx', 'with-theora', 'with-webp', --with-x265]
+brew 'ffmpeg', args: ['with-fdk-aac', 'with-libvorbis', 'with-libvpx', 'with-theora', 'with-webp', 'with-x265']
 brew 'flow'
 brew 'git'
 brew 'gnu-sed', args: ['with-default-names']
@@ -114,10 +114,10 @@ logk
 
 # Install PHP, global packages and update php.ini config file.
 logn "Installing PHP:"
-brew install homebrew/php/php72
+brew install php
 sed -i".bak" 's/^\;phar.readonly.*$/phar.readonly = Off/g' /usr/local/etc/php/7.2/php.ini
 sed -i "s/memory_limit = .*/memory_limit = -1/" /usr/local/etc/php/7.2/php.ini
-brew install homebrew/php/composer
+brew install composer
 logk
 
 # Install PHP packages with Composer.
