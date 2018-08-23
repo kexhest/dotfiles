@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 
 run() {
 	if [[ -f .php_cs ]]; then
