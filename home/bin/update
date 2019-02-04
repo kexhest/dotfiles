@@ -13,10 +13,10 @@ mas upgrade
 
 log 'Update Homebrew...'
 brew update
-brew upgrade --cleanup
+brew upgrade
 rm -rfv $(brew --cache)/*
 brew tap --repair
-brew prune
+brew cleanup
 
 log 'Update Composer...'
 composer self-update
