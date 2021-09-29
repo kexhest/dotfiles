@@ -1,51 +1,75 @@
 # dotfiles
 
-![dotfiles](https://cloud.githubusercontent.com/assets/499192/8982779/ab19893e-36c4-11e5-975b-86be2af72d86.png)
-
-.files, sensible hacker defaults for OS X. If you're curious how to setup your own dotfiles, please visit [Mathias Bynens's dotfiles](https://github.com/mathiasbynens/dotfiles) and [Mike McQuaid's strap project](https://github.com/mikemcquaid/strap) to learn more.
-
-[![Build Status](https://img.shields.io/travis/magnus-bergman/dotfiles/master.svg?style=flat)](https://travis-ci.org/magnus-bergman/dotfiles)
-[![License](https://img.shields.io/github/license/magnus-bergman/dotfiles.svg?style=flat)](https://github.com/magnus-bergman/dotfiles/blob/master/LICENSE)
+> .files, sensible hacker defaults for macOS. If you're curious how to setup your own dotfiles, please visit [Mathias Bynens's dotfiles](https://github.com/mathiasbynens/dotfiles) and [Mike McQuaid's strap project](https://github.com/mikemcquaid/strap) to learn more.
 
 ## Installation
 
-This is the installation guide to setup these dotfiles on a new macOS system.
+1. Before setting up a new computer, check the old one:
 
-1. Generate SSH keys [https://help.github.com/articles/generating-ssh-keys](https://help.github.com/articles/generating-ssh-keys)
+    - Export Terminal.app profile.
+    - Export Transmit.app server.
+    - Reevaluate the `brew` file.
+    - Double check that all repositories are synced.
+
+1. Install Xcode command line tools:
+
+    ```sh
+    xcode-select --install
+    ```
+
+1. [Generate new SSH key, add to ssh-agent and upload to GitHub.](https://help.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
 
 ```bash
 $ ssh-keygen -t rsa -C "your_email@example.com"
 ```
 
-2. Clone this respoitory and install dotfiles.
+1. Install [Homebrew](https://brew.sh/) and dependencies and then install dependencies with `homebrew-bundle`:
 
-3. Set default prompt to pure.
+    ```sh
+    ./script/brew
+    ```
 
-```bash
-autoload -U promptinit; promptinit
-prompt pure
-```
+1. Bootstrap macOS defaults.
 
-4. Follow the instructions [here](https://github.com/tylerreckart/hyperzsh#for-oh-my-zsh-users) to install hyperzsh theme for oh my zsh. The theme is already set in the .zshrc within this repo.
+    ```sh
+    ./script/macos
+    ```
 
-5. Download an import private GPG key from Keybase.
+1. [Setup FileVault to encrypt the startup disk.](https://support.apple.com/en-us/HT204837) Remember to first change the computer name.
 
-6. Setup 1Password and sync passwords.
+1. Install the dotfiles into the home directory.
 
-7. Add settings sync to vs-code/atom/sublime.
+1. Follow the instructions [here](https://github.com/tylerreckart/hyperzsh#for-oh-my-zsh-users) to install hyperzsh theme for oh my zsh. The theme is already set in the .zshrc within this repo.
 
-8. Restart the computer and live happily ever after.
+1. Setup settings sync in Visual Studio Code.
 
-## Before Reset
+1. Install third-party libraries with npm:
 
-Remeber to always backup or upload local stuff that you care about. Here are a few reminders of what you might lose otherwise.
+    ```sh
+    ./script/npm
+    ```
 
-- Local databases and app configurations: eg. `Transmit.app` favorites and `mysql` databases.
-- Remember to check all GIT repositories for uncommitted changes.
-- Make sure editor settings are synced.
+1. Disable load remote content in messages in mail application.
 
-Last but not least, you should probably reconsider applications, binaries and tools in `scripts`.
+1. Disable "Allow Handoff between this Mac and your iCloud devices" and set "Recent items" to "None" in general settings.
 
-## License
+1. Delete message after 30 days in Message.app preferences.
 
-[MIT](LICENSE) © [Magnus Bergman](https://magnus.sexy).
+1. Enable ask for password immediately after sleep or screen saver beings in security and privacy settings.
+
+1. Install any remaining software updates:
+
+    ```sh
+    sudo softwareupdate --install --all
+    ```
+
+1. Setup Internet Accounts.
+
+1. Sync Brave Browser settings.
+
+1. Install the following apps from the App Store:
+
+  - Dato
+  - Lungo
+  - Pixelmator Pro
+  - System Color Picker

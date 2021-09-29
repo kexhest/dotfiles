@@ -5,10 +5,10 @@ log() { echo -e "\e[0;33m${1}\e[0m"; }
 # Ask for the administrator password upfront
 sudo -v
 
-log 'Update macOS...'
+# log 'Update macOS...'
 sudo softwareupdate -i -a
 
-log 'Update Mac App Store...'
+# log 'Update Mac App Store...'
 mas upgrade
 
 log 'Update Homebrew...'
@@ -17,10 +17,6 @@ brew upgrade
 rm -rfv $(brew --cache)/*
 brew tap --repair
 brew cleanup
-
-log 'Update Composer...'
-composer self-update
-composer global update --no-dev --prefer-dist
 
 log 'Update npm...'
 npm install --global npm@latest
