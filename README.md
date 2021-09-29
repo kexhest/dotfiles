@@ -6,8 +6,6 @@
 
 1. Before setting up a new computer, check the old one:
 
-    - Export Terminal.app profile.
-    - Export Transmit.app server.
     - Reevaluate the `brew` file.
     - Double check that all repositories are synced.
 
