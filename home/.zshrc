@@ -6,7 +6,7 @@ plugins=(brew git node npm macos z)
 
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
-eval "$(pyenv init -)"
+# eval "$(pyenv init -)"
 
 export PATH=${HOME}/bin:${PATH};
 export PATH=/usr/local/sbin:${PATH};
