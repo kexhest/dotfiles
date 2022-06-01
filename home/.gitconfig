@@ -1,14 +1,14 @@
 [alias]
 	aliases = config --get-regexp alias
-  ac = !git add . && git commit -m
-  amend = commit --amend --reuse-message=HEAD
+	ac = !git add . && git commit -m
+	amend = commit --amend --reuse-message=HEAD
 	b = branch
-  branches = branch --all
-  c = clone --recursive
-  ca = !git add --all && git commit --all --verbose
-  co = checkout
+	branches = branch --all
+	c = clone --recursive
+	ca = !git add --all && git commit --all --verbose
+	co = checkout
 	f = fetch --all
-  m = merge
+	m = merge
 	p = push
 	pl = pull
 	pr = pull-request
@@ -38,11 +38,14 @@
 	# Remove the old tag with this name and tag the latest commit with it.
 	retag = "!r() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1; }; r"
 
+[init]
+        defaultBranch = main
+
 [apply]
 	whitespace = fix
 
 [branch]
-  sort = -comitterdate
+	sort = -comitterdate
 
 [color]
 	ui = auto
@@ -68,19 +71,22 @@
 [commit]
 	gpgsign = true
 
+[tag]
+        gpgsign = true
+
 [core]
 	ignoreCase = false
 	excludesfile = ~/.gitignore
 	trustctime = false
-  whitespace = space-before-tab,-indent-with-non-tab,trailing-space
-  untrackedCache = true
+	whitespace = space-before-tab,-indent-with-non-tab,trailing-space
+	untrackedCache = true
 
 [credential]
 	helper = osxkeychain
 
 [diff]
 	algorithm = patience
-  renames = copies
+	renames = copies
 
 [github]
 	user = kexhest
@@ -97,3 +103,6 @@
 	email = karlmagnusbergman@gmail.com
 
 	signingkey =
+
+[gpg]
+        program = gpg
