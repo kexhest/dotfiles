@@ -45,7 +45,7 @@
 	whitespace = fix
 
 [branch]
-	sort = -comitterdate
+	sort = -committerdate
 
 [color]
 	ui = auto
