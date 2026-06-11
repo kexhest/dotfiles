@@ -1,31 +1,31 @@
 export ZSH="$HOME/.oh-my-zsh"
 
-# ZSH_THEME="hyperzsh"
-
 plugins=(brew git node npm macos z)
 
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
+eval "$(fzf --zsh)"
 # eval "$(pyenv init -)"
 
-export PATH=${HOME}/bin:${PATH};
-export PATH=/usr/local/sbin:${PATH};
-export PATH=${HOME}/.local/bin:${PATH};
+export PATH=${PATH}:${HOME}/bin;
+export PATH=${PATH}:/usr/local/sbin;
+export PATH=${PATH}:${HOME}/.local/bin;
 export PATH=${PATH}:/usr/local/share/npm/bin;
-export PATH=${PATH}:`yarn global bin`;
-# export PATH=/opt/homebrew/opt/openjdk/bin:${PATH}
 
-export EDITOR='vim'
+export PNPM_HOME="/Users/kexhest/Library/pnpm"
+
+export PATH=${PATH}:${PNPM_HOME};
+
+export EDITOR='nvim'
 export GPG_TTY=$(tty)
-
-# export JAVA_HOME=$(/usr/libexec/java_home -v17)
-# export CPPFLAGS="-I/opt/homebrew/opt/openjdk/include"
 
 export NVM_DIR=~/.nvm
 source $(brew --prefix nvm)/nvm.sh
 
 export HOMEBREW_GITHUB_API_TOKEN=
 export HOMEBREW_NO_ANALYTICS=1
+
+export ANTHROPIC_API_KEY="$(security find-generic-password -s ANTHROPIC_API_KEY -a "$USER" -w 2>/dev/null)"
 
 export LANG=en_US.UTF-8;
 export LC_ALL=en_US.UTF-8;
@@ -34,6 +34,8 @@ source $ZSH/oh-my-zsh.sh
 
 alias update='source ~/bin/update'
 alias cleanup='source ~/bin/cleanup'
+alias vim='nvim'
+alias cat='bat'
 alias d='cd ~/Developer'
 alias g='git'
 alias h='history'
@@ -62,6 +64,10 @@ function o() {
   else
     open '$@';
   fi
+}
+
+function token() {
+  openssl rand -base64 40 | sed 's/[^a-zA-Z0-9]//g' | cut -c1-48 | pbcopy
 }
 
 autoload -U add-zsh-hook
