@@ -11,29 +11,35 @@ sudo scutil --set HostName "lucy"
 sudo scutil --set LocalHostName "lucy"
 sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "lucy"
 
-# Set profile preferences location for iterm2
-defaults write com.googlecode.iterm2.plist PrefsCustomFolder -string "~/dotfiles/iterm2"
-defaults write com.googlecode.iterm2.plist LoadPrefsFromCustomFolder -bool true
-
 # Set some basic security settings.
 defaults write com.apple.screensaver askForPassword -int 1
 defaults write com.apple.screensaver askForPasswordDelay -int 0
 
 # Create Developer directory in the user folder
-mkdir ~/Developer
+mkdir -p ~/Developer
 
 # Set 1.1.1.1 as default DNS servers
-networksetup -setdnsservers Wi-Fi 1.1.1.1 1.0.0.1 2606:4700:4700::1111 2606:4700:4700::1001
+sudo networksetup -setdnsservers Wi-Fi 1.1.1.1 1.0.0.1 2606:4700:4700::1111 2606:4700:4700::1001
 
 # Add login screen message.
-sudo defaults write /Library/Preferences/com.apple.loginwindow LoginwindowText "Found this computer? Please contact Magnus Bergman at karlmagnusbergman@gmail.com"
+sudo defaults write /Library/Preferences/com.apple.loginwindow LoginwindowText "Found this computer? Please contact Magnus Bergman at magnus.bergman@pm.me"
 
 # Enable key repeat everywhere
-defaults write -g ApplePressAndHoldEnabled -bool false
+defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
 
 # Set a blazingly fast keyboard repeat rate
 defaults write NSGlobalDomain KeyRepeat -int 1
 defaults write NSGlobalDomain InitialKeyRepeat -int 15
+
+defaults write com.apple.finder ShowPathbar -bool true
+defaults write com.apple.finder ShowStatusBar -bool true
+defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+
+# search current folder by default
+defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
+
+# no .DS_Store on network drives
+defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
 
 # Disable automatic capitalization as it’s annoying when typing code
 defaults write NSGlobalDomain NSAutomaticCapitalizationEnabled -bool false
@@ -61,7 +67,7 @@ defaults write com.apple.finder CreateDesktop -bool false
 
 # New Finder windows shows Home directory
 defaults write com.apple.finder NewWindowTarget -string "PfHm"
-defaults write com.apple.finder NewWindowTargetPath -string "file:///Users/magnus/"
+defaults write com.apple.finder NewWindowTargetPath -string "file:///Users/kexhest/"
 
 # Disable the warning when changing a file extension
 defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
@@ -75,8 +81,8 @@ defaults write com.apple.dock minimize-to-application -bool true
 # Hide recent applications in the dock.
 defaults write com.apple.dock show-recents -bool false
 
-# Set the icon size of Dock items to 50 pixels.
-defaults write com.apple.dock tilesize -int 50
+# Set the icon size of Dock items to 48 pixels.
+defaults write com.apple.dock tilesize -int 48
 
 # Automatically hide and show the Dock.
 defaults write com.apple.dock autohide -bool true
